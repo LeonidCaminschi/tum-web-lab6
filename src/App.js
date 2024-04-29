@@ -6,16 +6,20 @@ import './App.css';
 Modal.setAppElement('#root');
 
 function App() {
-  const [movies, setMovies] = useState([
-    { title: 'Hitman', img: 'hitman.jpg', link: 'https://www.imdb.com/title/tt0465494/'},
-    { title: 'Avatar', img: 'avatar.jpg', link: 'https://www.imdb.com/title/tt0465494/'},
-  ]);
+  const [movies, setMovies] = useState(() => {
+    const localData = localStorage.getItem('movies');
+    return localData ? JSON.parse(localData) : [];
+  });
   const [newMovieTitle, setNewMovieTitle] = useState('');
   const [newMovieImage, setNewMovieImage] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [newMovieLink, setNewMovieLink] = useState('');
   const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    localStorage.setItem('movies', JSON.stringify(movies));
+  }, [movies]);
 
   useEffect(() => {
     document.documentElement.style.setProperty('--background-color', theme === 'light' ? 'white' : 'black');
@@ -28,7 +32,9 @@ function App() {
       img: newMovieImage,
       link: newMovieLink,
     };
+    const updatedMovies = [...movies, newMovie];
     setMovies([...movies, newMovie]);
+    localStorage.setItem('movies', JSON.stringify(updatedMovies));
     setNewMovieTitle('');
     setNewMovieImage('');
     setNewMovieLink('');
