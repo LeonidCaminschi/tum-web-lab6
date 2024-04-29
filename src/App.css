@@ -6,8 +6,7 @@
 
 .App-logo {
   /*position: absolute;*/
-  top: 25px;
-  left: 25px;
+  margin: 25px;
   height: auto;
   width: auto;
   max-width: 10vmax;
