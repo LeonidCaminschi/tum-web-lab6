@@ -27,6 +27,15 @@ function App() {
   }, [theme]);
 
   const handleAddMovie = () => {
+    try {
+      const response = fetch(newMovieImage);
+      if (!response.ok) {
+        return;
+      }
+    } catch (error) {
+      return;
+    }
+
     const newMovie = {
       title: newMovieTitle,
       img: newMovieImage,
