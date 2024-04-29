@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.821e8094.css",
+    "main.js": "/static/js/main.8d1d55e4.js",
+    "static/js/453.0afdf592.chunk.js": "/static/js/453.0afdf592.chunk.js",
+    "static/media/avatar.jpg": "/static/media/avatar.26391ae9cb1cacb33ca3.jpg",
+    "static/media/hitman.jpg": "/static/media/hitman.084a02394f94c8ed7a9f.jpg",
+    "static/media/pianist.jpg": "/static/media/pianist.f0a98dec2e32eb069def.jpg",
+    "static/media/Blockbuster_logo.svg.png": "/static/media/Blockbuster_logo.svg.7f865066eda9484dba3a.png",
+    "index.html": "/index.html",
+    "main.821e8094.css.map": "/static/css/main.821e8094.css.map",
+    "main.8d1d55e4.js.map": "/static/js/main.8d1d55e4.js.map",
+    "453.0afdf592.chunk.js.map": "/static/js/453.0afdf592.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.821e8094.css",
+    "static/js/main.8d1d55e4.js"
+  ]
+}
