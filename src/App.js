@@ -3,7 +3,7 @@ import logo from './Blockbuster_logo.svg.png';
 import Modal from 'react-modal';
 import './App.css';
 
-Modal.setAppElement('#root'); // This line is needed for accessibility reasons
+Modal.setAppElement('#root');
 
 function App() {
   const [movies, setMovies] = useState([
@@ -13,6 +13,7 @@ function App() {
   const [newMovieTitle, setNewMovieTitle] = useState('');
   const [newMovieImage, setNewMovieImage] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleAddMovie = () => {
     const newMovie = {
@@ -28,19 +29,33 @@ function App() {
   return (
     <div className="App">
       <img src={logo} className="App-logo" alt="logo" />
-      <button onClick={() => setModalIsOpen(true)}
-        style={{
-          padding: '10px 20px',
-          fontSize: '16px',
-          borderRadius: '5px',
-          border: 'none',
-          backgroundColor: '#007BFF',
-          color: 'white',
-          cursor: 'pointer',
-          width: 200,
-          marginTop: '20px',
-          marginLeft: '20px',
-        }}>Add Movie</button>
+      <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '20px' }}>
+    <input
+      type="text"
+      placeholder="Search"
+      value={searchTerm}
+      onChange={(e) => setSearchTerm(e.target.value)}
+      style={{
+        padding: '10px',
+        fontSize: '16px',
+        borderRadius: '5px',
+        border: '1px solid #ccc',
+        width: '200px',
+        marginRight: '20px',
+      }}
+    />
+    <button onClick={() => setModalIsOpen(true)}
+      style={{
+        padding: '10px 20px',
+        fontSize: '16px',
+        borderRadius: '5px',
+        border: 'none',
+        backgroundColor: '#007BFF',
+        color: 'white',
+        cursor: 'pointer',
+        width: 200,
+      }}>Add Movie</button>
+  </div>
 
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} 
         style={{
@@ -51,7 +66,7 @@ function App() {
             bottom: 'auto',
             marginRight: '-50%',
             transform: 'translate(-50%, -50%)',
-            width: '25%', // adjust this value to change the size of the modal
+            width: '25%',
             height: '25%',
             display: 'flex',
             flexDirection: 'column',
@@ -75,7 +90,7 @@ function App() {
       </Modal>
 
       <div className="movie-container">
-        {movies.map((movie, index) => (
+        {movies.filter(movie => movie.title.toLowerCase().includes(searchTerm.toLowerCase())).map((movie, index) => (
           <div className="movie" key={index}>
             <img src={require(`./images/${movie.img}`)} alt={movie.title} />
             <h2>{movie.title}</h2>
