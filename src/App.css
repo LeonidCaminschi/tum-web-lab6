@@ -1,3 +1,15 @@
+:root {
+  --background-color-light: white;
+  --background-color-dark: black;
+  --text-color-light: black;
+  --text-color-dark: white;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
 .App {
   display: flex;
   flex-direction: column;
