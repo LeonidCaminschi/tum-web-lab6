@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './Blockbuster_logo.svg.png';
 import Modal from 'react-modal';
 import './App.css';
@@ -15,6 +15,12 @@ function App() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [newMovieLink, setNewMovieLink] = useState('');
+  const [theme, setTheme] = useState('light');
+
+  useEffect(() => {
+    document.documentElement.style.setProperty('--background-color', theme === 'light' ? 'white' : 'black');
+    document.documentElement.style.setProperty('--text-color', theme === 'light' ? 'black' : 'white');
+  }, [theme]);
 
   const handleAddMovie = () => {
     const newMovie = {
@@ -32,6 +38,22 @@ function App() {
   return (
     <div className="App">
       <img src={logo} className="App-logo" alt="logo" />
+      <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+      style={{
+        padding: '10px 20px',
+        fontSize: '16px',
+        borderRadius: '5px',
+        border: 'none',
+        backgroundColor: theme === 'light' ? '#007BFF' : '#FFA500',
+        color: 'white',
+        cursor: 'pointer',
+        marginTop: '20px',
+        position: 'absolute',
+        right: '0',
+        marginRight: '20px',
+      }}>
+        Toggle theme
+      </button>
       <div style={{ display: 'flex', justifyContent: 'left', alignItems: 'center', margin: '20px' }}>
     <input
       type="text"
@@ -45,6 +67,7 @@ function App() {
         border: '1px solid #ccc',
         width: '200px',
         marginRight: '20px',
+        backgroundColor: theme === 'light' ? 'white' : '#FFA500',
       }}
     />
     <button onClick={() => setModalIsOpen(true)}
@@ -53,7 +76,7 @@ function App() {
         fontSize: '16px',
         borderRadius: '5px',
         border: 'none',
-        backgroundColor: '#007BFF',
+        backgroundColor: theme === 'light' ? '#007BFF' : '#FFA500',
         color: 'white',
         cursor: 'pointer',
         width: 200,
@@ -75,30 +98,72 @@ function App() {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
+            backgroundColor: theme === 'light' ? 'white' : 'black',
+            color: theme === 'light' ? 'black' : 'white',
           },
+          overlay: {
+            backgroundColor: theme === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+          }
         }}>
         <input
           type="text"
           placeholder="Movie Title"
           value={newMovieTitle}
           onChange={(e) => setNewMovieTitle(e.target.value)}
+          style={{
+            padding: '10px',
+            fontSize: '16px',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            width: '200px',
+            marginRight: '20px',
+            backgroundColor: theme === 'light' ? 'white' : '#FFA500',
+          }}
         /> <br/>
         <input
           type="text"
           placeholder="Image Path (e.g., avatar.jpg)"
           value={newMovieImage}
           onChange={(e) => setNewMovieImage(e.target.value)}
+          style={{
+            padding: '10px',
+            fontSize: '16px',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            width: '200px',
+            marginRight: '20px',
+            backgroundColor: theme === 'light' ? 'white' : '#FFA500',
+          }}
         /> <br/>
         <input
           type="text"
           placeholder="Movie Link (e.g., https://www.imdb.com/title/tt0111161/)"
           value={newMovieLink}
           onChange={(e) => setNewMovieLink(e.target.value)}
+          style={{
+            padding: '10px',
+            fontSize: '16px',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            width: '200px',
+            marginRight: '20px',
+            backgroundColor: theme === 'light' ? 'white' : '#FFA500',
+          }}
         /> <br/>
-        <button onClick={handleAddMovie}>Submit</button>
+        <button onClick={handleAddMovie}
+        style={{
+          padding: '10px 20px',
+          fontSize: '16px',
+          borderRadius: '5px',
+          border: 'none',
+          backgroundColor: theme === 'light' ? '#007BFF' : '#FFA500',
+          color: 'white',
+          cursor: 'pointer',
+          width: 200,
+        }}>Submit</button>
       </Modal>
 
-      <div className="movie-container">
+      <div className="movie-container" style={{ backgroundColor: theme === 'light' ? '#808080' : '#FFA500' }}>
         {movies.filter(movie => movie.title.toLowerCase().includes(searchTerm.toLowerCase())).map((movie, index) => (
           <div className="movie" key={index}>
             <a href={movie.link} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
