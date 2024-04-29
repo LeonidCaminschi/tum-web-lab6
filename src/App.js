@@ -14,15 +14,18 @@ function App() {
   const [newMovieImage, setNewMovieImage] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [newMovieLink, setNewMovieLink] = useState('');
 
   const handleAddMovie = () => {
     const newMovie = {
       title: newMovieTitle,
       img: newMovieImage,
+      link: newMovieLink,
     };
     setMovies([...movies, newMovie]);
     setNewMovieTitle('');
     setNewMovieImage('');
+    setNewMovieLink('');
     setModalIsOpen(false);
   };
 
@@ -86,14 +89,22 @@ function App() {
           value={newMovieImage}
           onChange={(e) => setNewMovieImage(e.target.value)}
         /> <br/>
+        <input
+          type="text"
+          placeholder="Movie Link (e.g., https://www.imdb.com/title/tt0111161/)"
+          value={newMovieLink}
+          onChange={(e) => setNewMovieLink(e.target.value)}
+        /> <br/>
         <button onClick={handleAddMovie}>Submit</button>
       </Modal>
 
       <div className="movie-container">
         {movies.filter(movie => movie.title.toLowerCase().includes(searchTerm.toLowerCase())).map((movie, index) => (
           <div className="movie" key={index}>
+            <a href={movie.link} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
             <img src={require(`./images/${movie.img}`)} alt={movie.title} />
             <h2>{movie.title}</h2>
+            </a>
           </div>
         ))}
       </div>
