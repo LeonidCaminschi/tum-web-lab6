@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import logo from './Blockbuster_logo.svg.png';
 import Modal from 'react-modal';
 import './App.css';
+import axios from 'axios';
 
 Modal.setAppElement('#root');
 
 function App() {
+  //axios.get('http://localhost:8000/api/hello-world/');
+
   const [movies, setMovies] = useState(() => {
     const localData = localStorage.getItem('movies');
     return localData ? JSON.parse(localData) : [];
@@ -17,6 +20,12 @@ function App() {
   const [newMovieLink, setNewMovieLink] = useState('');
   const [theme, setTheme] = useState('light');
 
+  const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   useEffect(() => {
     localStorage.setItem('movies', JSON.stringify(movies));
   }, [movies]);
@@ -27,15 +36,6 @@ function App() {
   }, [theme]);
 
   const handleAddMovie = () => {
-    try {
-      const response = fetch(newMovieImage);
-      if (!response.ok) {
-        return;
-      }
-    } catch (error) {
-      return;
-    }
-
     const newMovie = {
       title: newMovieTitle,
       img: newMovieImage,
@@ -50,9 +50,109 @@ function App() {
     setModalIsOpen(false);
   };
 
+  const handleUser = () => {
+    //...
+
+    setIsLoggedIn(true);
+    setLoginModalIsOpen(false);
+  };
+
   return (
     <div className="App">
       <img src={logo} className="App-logo" alt="logo" />
+
+      {!isLoggedIn && (
+      <button onClick={() => setLoginModalIsOpen(true)}
+        style={{
+          padding: '10px 20px',
+          fontSize: '16px',
+          borderRadius: '5px',
+          border: 'none',
+          backgroundColor: theme === 'light' ? '#007BFF' : '#FFA500',
+          color: 'white',
+          cursor: 'pointer',
+          marginTop: '20px',
+          position: 'absolute',
+          right: '0',
+          marginRight: '170px',
+        }}>Login</button>
+      )}
+
+      {isLoggedIn && (
+        <div style={{
+          padding: '10px 20px',
+          fontSize: '16px',
+          borderRadius: '5px',
+          border: 'none',
+          backgroundColor: theme === 'light' ? '#007BFF' : '#FFA500',
+          color: 'white',
+          cursor: 'initial',
+          marginTop: '20px',
+          position: 'absolute',
+          right: '0',
+          marginRight: '170px',
+        }}>Welcome, {username}!</div>
+      )}
+
+      <Modal isOpen={loginModalIsOpen} onRequestClose={() => setLoginModalIsOpen(false)}
+      style={{
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+          width: '25%',
+          height: '25%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: theme === 'light' ? 'white' : 'black',
+          color: theme === 'light' ? 'black' : 'white',
+        },
+        overlay: {
+          backgroundColor: theme === 'light' ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
+        }
+      }}>
+        <h2>Login</h2>
+        <input type="text" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)}
+        style={{
+          padding: '10px',
+          fontSize: '16px',
+          borderRadius: '5px',
+          border: '1px solid #ccc',
+          width: '200px',
+          marginRight: '20px',
+          margionBottom: '50px',
+          backgroundColor: theme === 'light' ? 'white' : '#FFA500',
+        }} />
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}
+        style={{
+          padding: '10px',
+          fontSize: '16px',
+          borderRadius: '5px',
+          border: '1px solid #ccc',
+          width: '200px',
+          marginRight: '20px',
+          marginTop: '20px',
+          marginBottom: '10px',
+          backgroundColor: theme === 'light' ? 'white' : '#FFA500',
+        }} />
+        <button onClick={handleUser}
+          style={{
+            padding: '10px 20px',
+            fontSize: '16px',
+            borderRadius: '5px',
+            border: 'none',
+            backgroundColor: theme === 'light' ? '#007BFF' : '#FFA500',
+            color: 'white',
+            cursor: 'pointer',
+            marginTop: '10px',
+          }}>Submit</button>
+      </Modal>
+
       <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
       style={{
         padding: '10px 20px',
