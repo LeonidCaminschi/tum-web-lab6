@@ -50,11 +50,22 @@ function App() {
     setModalIsOpen(false);
   };
 
-  const handleUser = () => {
-    //...
-
-    setIsLoggedIn(true);
-    setLoginModalIsOpen(false);
+  const handleUser = async () => {
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/login', {
+        username: username,
+        password: password,
+      });
+  
+      if (response.status === 200) {
+        localStorage.setItem('refreshToken', response.data.refresh);
+        localStorage.setItem('accessToken', response.data.access);
+        setIsLoggedIn(true);
+        setLoginModalIsOpen(false);
+      }
+    } catch (error) {
+      console.error('Failed to log in', error);
+    }
   };
 
   return (
