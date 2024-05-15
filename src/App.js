@@ -75,6 +75,9 @@ function App() {
       }
     } catch (error) {
       console.error('Failed to add movie', error);
+      if (error.response && error.response.status === 401) {
+        handleLogout();
+      }
     }
   };
 
@@ -122,6 +125,9 @@ function App() {
       }
     } catch (error) {
       console.error('Failed to delete movie', error);
+      if (error.response && error.response.status === 401) {
+        handleLogout();
+      }
     }
   };
 
@@ -366,9 +372,10 @@ function App() {
       <div className="movie-container" style={{ backgroundColor: theme === 'light' ? '#808080' : '#FFA500' }}>
         {movies.filter(movie => movie.title.toLowerCase().includes(searchTerm.toLowerCase())).map((movie, index) => (
           <div className="movie" key={index}>
-            <a href={movie.link} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
-            <img src={movie.image_url} alt={movie.title} />
-            <h2>{movie.title}</h2>
+            <a href={movie.movie_url} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
+              <img src={movie.image_url} alt={movie.title} />
+              <h2>{movie.title}</h2>
+            </a>
             <button onClick={() => handleDeleteMovie(movie)}
             style={{
               padding: '10px 20px',
@@ -380,7 +387,6 @@ function App() {
               cursor: 'pointer',
               width: 200,
             }}>Delete</button>
-            </a>
           </div>
         ))}
       </div>
