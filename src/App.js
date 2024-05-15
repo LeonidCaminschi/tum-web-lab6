@@ -38,6 +38,16 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    const username = localStorage.getItem('username');
+  
+    if (accessToken && username) {
+      setIsLoggedIn(true);
+      setUsername(username);
+    }
+  }, []);
+
+  useEffect(() => {
     document.documentElement.style.setProperty('--background-color', theme === 'light' ? 'white' : 'black');
     document.documentElement.style.setProperty('--text-color', theme === 'light' ? 'black' : 'white');
   }, [theme]);
@@ -78,6 +88,7 @@ function App() {
       if (response.status === 200) {
         localStorage.setItem('refreshToken', response.data.refresh);
         localStorage.setItem('accessToken', response.data.access);
+        localStorage.setItem('username', username);
         setIsLoggedIn(true);
         setLoginModalIsOpen(false);
       }
