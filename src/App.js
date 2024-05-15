@@ -103,6 +103,28 @@ function App() {
     setIsLoggedIn(false);
   };
 
+  const handleDeleteMovie = async (movie) => {
+    try {
+      const response = await axios.delete(`http://127.0.0.1:8000/api/delete-movie/`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        },
+        data: {
+          title: movie.title,
+          image_url: movie.image_url,
+          movie_url: movie.movie_url
+        }
+      });
+  
+      if (response.status === 200) {
+        // Remove the deleted movie from the movies state
+        setMovies(movies.filter(m => m.title !== movie.title));
+      }
+    } catch (error) {
+      console.error('Failed to delete movie', error);
+    }
+  };
+
   return (
     <div className="App">
       <img src={logo} className="App-logo" alt="logo" />
@@ -347,6 +369,7 @@ function App() {
             <a href={movie.link} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
             <img src={movie.img} alt={movie.title} />
             <h2>{movie.title}</h2>
+            <button onClick={() => handleDeleteMovie(movie)}>Delete</button>
             </a>
           </div>
         ))}
