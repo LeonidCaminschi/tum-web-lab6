@@ -9,10 +9,8 @@ Modal.setAppElement('#root');
 function App() {
   //axios.get('http://localhost:8000/api/hello-world/');
 
-  const [movies, setMovies] = useState(() => {
-    const localData = localStorage.getItem('movies');
-    return localData ? JSON.parse(localData) : [];
-  });
+  const [movies, setMovies] = useState([]);
+
   const [newMovieTitle, setNewMovieTitle] = useState('');
   const [newMovieImage, setNewMovieImage] = useState('');
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -27,8 +25,17 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem('movies', JSON.stringify(movies));
-  }, [movies]);
+    const fetchMovies = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/list-movies/');
+        setMovies(response.data);
+      } catch (error) {
+        console.error('Failed to fetch movies', error);
+      }
+    };
+  
+    fetchMovies();
+  }, []);
 
   useEffect(() => {
     document.documentElement.style.setProperty('--background-color', theme === 'light' ? 'white' : 'black');
