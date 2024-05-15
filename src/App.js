@@ -369,7 +369,17 @@ function App() {
             <a href={movie.link} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
             <img src={movie.img} alt={movie.title} />
             <h2>{movie.title}</h2>
-            <button onClick={() => handleDeleteMovie(movie)}>Delete</button>
+            <button onClick={() => handleDeleteMovie(movie)}
+            style={{
+              padding: '10px 20px',
+              fontSize: '16px',
+              borderRadius: '5px',
+              border: 'none',
+              backgroundColor: theme === 'light' ? '#007BFF' : '#FF0000',
+              color: 'white',
+              cursor: 'pointer',
+              width: 200,
+            }}>Delete</button>
             </a>
           </div>
         ))}
