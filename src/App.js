@@ -237,7 +237,7 @@ function App() {
         /> <br/>
         <input
           type="text"
-          placeholder="Image Path (e.g., avatar.jpg)"
+          placeholder="Online Image URL"
           value={newMovieImage}
           onChange={(e) => setNewMovieImage(e.target.value)}
           style={{
@@ -282,7 +282,7 @@ function App() {
         {movies.filter(movie => movie.title.toLowerCase().includes(searchTerm.toLowerCase())).map((movie, index) => (
           <div className="movie" key={index}>
             <a href={movie.link} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
-            <img src={require(`./images/${movie.img}`)} alt={movie.title} />
+            <img src={movie.img} alt={movie.title} />
             <h2>{movie.title}</h2>
             </a>
           </div>
