@@ -367,7 +367,7 @@ function App() {
         {movies.filter(movie => movie.title.toLowerCase().includes(searchTerm.toLowerCase())).map((movie, index) => (
           <div className="movie" key={index}>
             <a href={movie.link} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>
-            <img src={movie.img} alt={movie.title} />
+            <img src={movie.image_url} alt={movie.title} />
             <h2>{movie.title}</h2>
             <button onClick={() => handleDeleteMovie(movie)}
             style={{
