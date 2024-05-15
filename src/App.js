@@ -23,19 +23,34 @@ function App() {
   const [password, setPassword] = useState('');
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [page, setPage] = useState(1);
+
+  const fetchMovies = async () => {
+    try {
+      const response = await axios.get("http://127.0.0.1:8000/api/list-movies/?page="+page);
+      setMovies(response.data);
+    } catch (error) {
+      console.error('Failed to fetch movies', error);
+    }
+  };
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-        const response = await axios.get('http://127.0.0.1:8000/api/list-movies/');
-        setMovies(response.data);
-      } catch (error) {
-        console.error('Failed to fetch movies', error);
-      }
-    };
-  
     fetchMovies();
   }, []);
+
+  useEffect(() => {
+    fetchMovies();
+  }, [page]);
+
+  const handleNextPage = () => {
+    setPage(page + 1);
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
@@ -389,6 +404,31 @@ function App() {
             }}>Delete</button>
           </div>
         ))}
+      </div>
+      <div style={{ display: 'flex', marginTop: '20px' }}>
+        <button onClick={handlePreviousPage}
+        style={{
+          padding: '10px 20px',
+          fontSize: '16px',
+          borderRadius: '5px',
+          border: 'none',
+          backgroundColor: theme === 'light' ? '#007BFF' : '#FFA500',
+          color: 'white',
+          cursor: 'pointer',
+          width: 200,
+          marginRight: '20px',
+        }}>Previous</button>
+        <button onClick={handleNextPage}
+        style={{
+          padding: '10px 20px',
+          fontSize: '16px',
+          borderRadius: '5px',
+          border: 'none',
+          backgroundColor: theme === 'light' ? '#007BFF' : '#FFA500',
+          color: 'white',
+          cursor: 'pointer',
+          width: 200,
+        }}>Next</button>
       </div>
     </div>
   );
