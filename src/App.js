@@ -42,19 +42,30 @@ function App() {
     document.documentElement.style.setProperty('--text-color', theme === 'light' ? 'black' : 'white');
   }, [theme]);
 
-  const handleAddMovie = () => {
-    const newMovie = {
-      title: newMovieTitle,
-      img: newMovieImage,
-      link: newMovieLink,
-    };
-    const updatedMovies = [...movies, newMovie];
-    setMovies([...movies, newMovie]);
-    localStorage.setItem('movies', JSON.stringify(updatedMovies));
-    setNewMovieTitle('');
-    setNewMovieImage('');
-    setNewMovieLink('');
-    setModalIsOpen(false);
+  const handleAddMovie = async () => {
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/create-movie/', {
+        title: newMovieTitle,
+        image_url: newMovieImage,
+        movie_url: newMovieLink,
+      }, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+        }
+      });
+  
+      setModalIsOpen(false);
+
+      if (response.status === 200) {
+        setNewMovieTitle('');
+        setNewMovieImage('');
+        setNewMovieLink('');
+        const response = await axios.get('http://127.0.0.1:8000/api/list-movies/');
+        setMovies(response.data);
+      }
+    } catch (error) {
+      console.error('Failed to add movie', error);
+    }
   };
 
   const handleUser = async () => {
