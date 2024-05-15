@@ -97,6 +97,12 @@ function App() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('username');
+    setIsLoggedIn(false);
+  };
+
   return (
     <div className="App">
       <img src={logo} className="App-logo" alt="logo" />
@@ -132,6 +138,23 @@ function App() {
           right: '0',
           marginRight: '170px',
         }}>Welcome, {username}!</div>
+      )}
+
+    {isLoggedIn && (
+      <button onClick={handleLogout}
+        style={{
+          padding: '10px 20px',
+          fontSize: '16px',
+          borderRadius: '5px',
+          border: 'none',
+          backgroundColor: theme === 'light' ? '#007BFF' : '#FFA500',
+          color: 'white',
+          cursor: 'pointer',
+          marginTop: '70px',
+          position: 'absolute',
+          right: '0',
+          marginRight: '20px',
+        }}>Logout</button>
       )}
 
       <Modal isOpen={loginModalIsOpen} onRequestClose={() => setLoginModalIsOpen(false)}
