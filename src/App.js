@@ -27,7 +27,11 @@ function App() {
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get("http://127.0.0.1:8000/api/list-movies/?page="+page);
+      const response = await axios.get("http://127.0.0.1:8000/api/list-movies/?page="+page, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    });
       setMovies(response.data);
     } catch (error) {
       console.error('Failed to fetch movies', error);
@@ -85,13 +89,12 @@ function App() {
         setNewMovieTitle('');
         setNewMovieImage('');
         setNewMovieLink('');
-        const response = await axios.get('http://127.0.0.1:8000/api/list-movies/');
-        setMovies(response.data);
+        fetchMovies();
       }
     } catch (error) {
       console.error('Failed to add movie', error);
       if (error.response && error.response.status === 401) {
-        handleLogout();
+        
       }
     }
   };
@@ -113,12 +116,14 @@ function App() {
     } catch (error) {
       console.error('Failed to log in', error);
     }
+    fetchMovies();
   };
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('username');
     setIsLoggedIn(false);
+    setMovies([]);
   };
 
   const handleDeleteMovie = async (movie) => {
